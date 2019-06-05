@@ -8,7 +8,7 @@ using namespace std;
 void analyzePS(QString bearing);
 
 array<array<QString,2>,66> rules = {"BS2", "Indefinido",
-                                    "Ze", "Indefinido",
+                                    "ZE", "Indefinido",
                                     "W", "Stainless steel",
                                     "WBB1", "Stainless steel/Not with ISO rules",
                                     "D", "Dimentions on inches",
@@ -89,29 +89,40 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QString sampleB = "ZE6001NRS1RZ";
-
-    /*for(auto const &row : rules)
-    {
-        for(auto const &element : row){
-            cout << element.toStdString()<<" ";
-        }
-        cout << endl;
-    }
-    */
-
+    QString sampleB = "zE6001NRS1RZ";
     analyzePS(sampleB);
 
     return a.exec();
-
 }
 
 void analyzePS(QString bearing){
-    for(size_t row = 0; row < rules.size(); row++){
-        for(size_t column = 0; column < rules[row].size(); column++){
-            cout << rules[row][column].toStdString() << " ";
-        }
-        cout<<endl;
-    }
 
+    cout<<"Analyzing: " << bearing.toStdString()<<endl;
+    for(size_t row = 0; row < rules.size(); row++){
+        bool matchDetected = false;
+
+        for(size_t column = 0; column < rules[row].size(); column++){
+            if(column == 0){
+                if(bearing.contains(rules[row][column], Qt::CaseInsensitive)){
+                    matchDetected = true;
+                    cout <<"Has "<<rules[row][column].toStdString();
+                }
+            }else{
+                if(matchDetected){
+                    cout<<": "<<rules[row][column].toStdString()<<endl;
+                    matchDetected = false;
+                }
+            }
+        }
+    }
 }
+
+
+/*for(auto const &row : rules)
+{
+    for(auto const &element : row){
+        cout << element.toStdString()<<" ";
+    }
+    cout << endl;
+}
+*/
