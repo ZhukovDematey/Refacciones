@@ -2,6 +2,8 @@
 #include <array>
 #include <QString>
 #include <iostream>
+#include <QDebug>
+#include "strmanip.h"
 
 using namespace std;
 
@@ -90,6 +92,9 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    //QString sampleB = "ZE6001NRS1RZSD";
+    //cout << strsearch(sampleB, "ZEN")<<endl;
+
     QString sampleB = "ZE6001NRS1RZ";
     analyzePS(sampleB);
 
@@ -117,8 +122,22 @@ void analyzePS(QString bearing){
 }
 
 bool hasStringMatch(QString bearing,size_t row, size_t column){
-    if(bearing.contains(rules[row][column], Qt::CaseInsensitive)){
-        return true;
+
+    if(strsearch(bearing, rules[row][column]) != -1){
+        for (size_t row2 = 0; row2 < rules.size(); row2++) {
+            for(size_t column2 = 0; column2 < rules[row2].size(); column2++){
+
+                if((column2 == 0) && row2 != row){
+
+                    if(bearing.contains(rules[row2][column2]))
+
+                    cout <<rules[row2][column2].toStdString() << " contains "<< rules[row][column].toStdString()<<endl;
+                    if(rules[row2][column2].contains(rules[row][column],Qt::CaseInsensitive)){
+                        cout<< "CONTAINS "<<endl<<endl<<endl;
+                    }
+                }
+            }
+        }
     }
     return false;
 }
