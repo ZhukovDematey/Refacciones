@@ -81,6 +81,7 @@ array<array<QString,2>,66> rules = {"BS2", "Indefinido",
                                     "VT378", "Ignore for now",
                                     "WT", "Ignore for now"
 
+
                                    };
 
 
