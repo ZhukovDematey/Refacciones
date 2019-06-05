@@ -6,6 +6,7 @@
 using namespace std;
 
 void analyzePS(QString bearing);
+bool hasStringMatch(QString bearing, size_t row, size_t column);
 
 array<array<QString,2>,66> rules = {"BS2", "Indefinido",
                                     "ZE", "Indefinido",
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QString sampleB = "zE6001NRS1RZ";
+    QString sampleB = "ZE6001NRS1RZ";
     analyzePS(sampleB);
 
     return a.exec();
@@ -103,13 +104,11 @@ void analyzePS(QString bearing){
 
         for(size_t column = 0; column < rules[row].size(); column++){
             if(column == 0){
-                if(bearing.contains(rules[row][column], Qt::CaseInsensitive)){
-                    matchDetected = true;
-                    cout <<"Has "<<rules[row][column].toStdString();
-                }
+                if(hasStringMatch(bearing,row, column)) matchDetected = true;
             }else{
                 if(matchDetected){
-                    cout<<": "<<rules[row][column].toStdString()<<endl;
+                    cout <<"Has "<<rules[row][0].toStdString();
+                    cout<<": "<<rules[row][1].toStdString()<<endl;
                     matchDetected = false;
                 }
             }
@@ -117,7 +116,12 @@ void analyzePS(QString bearing){
     }
 }
 
-
+bool hasStringMatch(QString bearing,size_t row, size_t column){
+    if(bearing.contains(rules[row][column], Qt::CaseInsensitive)){
+        return true;
+    }
+    return false;
+}
 /*for(auto const &row : rules)
 {
     for(auto const &element : row){
