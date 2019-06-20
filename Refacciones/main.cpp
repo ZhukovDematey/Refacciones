@@ -91,10 +91,6 @@ array<array<QString,2>,66> rules = {"BS2", "Indefinido",
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
-    //QString sampleB = "ZE6001NRS1RZSD";
-    //cout << strsearch(sampleB, "ZEN")<<endl;
-
     QString sampleB = "ZE6001NRS1RZ";
     analyzePS(sampleB);
 

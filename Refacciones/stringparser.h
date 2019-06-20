@@ -9,6 +9,7 @@ class StringParser
 public:
     StringParser();
     virtual ~StringParser();
+    virtual void parseString(QString &parsedString) final;
 
 private:
     virtual void fillRules();
