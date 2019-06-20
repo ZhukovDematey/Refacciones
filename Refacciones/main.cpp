@@ -146,11 +146,3 @@ bool hasStringMatch(QString bearing,size_t row, size_t column){
     }
     return matched;
 }
-/*for(auto const &row : rules)
-{
-    for(auto const &element : row){
-        cout << element.toStdString()<<" ";
-    }
-    cout << endl;
-}
-*/
