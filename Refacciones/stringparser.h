@@ -13,6 +13,7 @@ public:
 
 private:
     virtual void fillRules();
+    bool hasStringMatch(QString stringToParse, size_t ruleToAnalyze);
 
 private:
     std::vector<QString> rules;

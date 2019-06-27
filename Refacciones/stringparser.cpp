@@ -1,4 +1,5 @@
 #include "stringparser.h"
+#include "strmanip.h"
 #include <QDebug>
 
 StringParser::StringParser()
@@ -15,20 +16,8 @@ void StringParser::parseString(QString &parsedString)
 {
     qDebug()<<"Analyzing: " << parsedString <<endl;
     for(size_t row = 0; row < rules.size(); row++){
-        bool matchDetected = false;
-
-
-
-        for(size_t column = 0; column < rules[row].size(); column++){
-            if(column == 0){
-                if(hasStringMatch(bearing,row, column)) matchDetected = true;
-            }else{
-                if(matchDetected){
-                    cout <<"Has "<<rules[row][0].toStdString();
-                    cout<<": "<<rules[row][1].toStdString()<<endl;
-                    matchDetected = false;
-                }
-            }
+        if(hasStringMatch(parsedString, row)){
+            qDebug() << "has " << rules.at(row);
         }
     }
 }
@@ -108,4 +97,23 @@ void StringParser::fillRules()
     rules.push_back("VT378");
     rules.push_back("WT");
 
+}
+
+bool StringParser::hasStringMatch(QString stringToParse, size_t ruleToAnalyze)
+{
+    bool matched = true;
+    int searchedSringPos = strsearch(stringToParse, rules.at(ruleToAnalyze));
+    if(searchedSringPos != -1){
+        for (size_t row = 0; row < rules.size(); row++) {
+            if(row  != ruleToAnalyze){
+                int similarStringPos = strsearch(stringToParse, rules.at(row));
+                if(searchedSringPos == similarStringPos && rules.at(row) > rules.at(ruleToAnalyze)){
+                    matched = false;
+                }
+            }
+        }        
+    }else{
+        matched = false;
+    }
+    return matched;
 }
