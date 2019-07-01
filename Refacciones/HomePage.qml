@@ -30,9 +30,15 @@ Item {
         anchors.topMargin: parent.height * .1
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.20
+        onClicked: {
+            mainTextArea.selectAll()
+            mainTextArea.clear()
+            stringParser.parseNow(textField.text)
+        }
     }
 
     TextArea{
+        id: mainTextArea
         anchors.top: analyzeButton.bottom
         anchors.topMargin: parent.height * .01
         anchors.left: parent.left
@@ -40,6 +46,13 @@ Item {
         anchors.leftMargin: parent.width * .05
         anchors.rightMargin: parent.width * .05
         anchors.bottom: parent.bottom
-        text: "lkjasdfñjl"
+        text: ""
+    }
+
+    Connections{
+        target: stringParser
+        onDetectedMatchChanged: {
+            mainTextArea.append("Has " + stringParser.detectedMatch)
+        }
     }
 }

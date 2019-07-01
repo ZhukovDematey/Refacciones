@@ -2,7 +2,8 @@
 #include "strmanip.h"
 #include <QDebug>
 
-StringParser::StringParser()
+StringParser::StringParser(QObject *parent):
+        QObject(parent)
 {
     fillRules();
 }
@@ -18,8 +19,14 @@ void StringParser::parseString(QString &parsedString)
     for(size_t row = 0; row < rules.size(); row++){
         if(hasStringMatch(parsedString, row)){
             qDebug() << "has " << rules.at(row);
+            setdetectedMatch(rules.at(row));
         }
     }
+}
+
+void StringParser::parseNow(QString stringToParse)
+{
+    parseString(stringToParse);
 }
 
 void StringParser::fillRules()
@@ -117,3 +124,15 @@ bool StringParser::hasStringMatch(QString stringToParse, size_t ruleToAnalyze)
     }
     return matched;
 }
+
+QString StringParser::getdetectedMatch() const
+{
+    return m_detectedMatch;
+}
+
+void StringParser::setdetectedMatch(const QString &detectedMatch)
+{
+    m_detectedMatch = detectedMatch;
+    emit detectedMatchChanged();
+}
+
