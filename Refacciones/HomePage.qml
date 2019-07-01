@@ -30,15 +30,17 @@ Item {
         anchors.topMargin: parent.height * .1
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.20
-        onClicked: {
-            mainTextArea.selectAll()
+        onClicked: {            
             mainTextArea.clear()
-            stringParser.parseNow(textField.text)
+            mainTextArea.append("Analyzing : "+ textField.text + "\n")
+            stringParser.parseNow(textField.text)            
+            textField.clear()
         }
     }
 
     TextArea{
         id: mainTextArea
+        readOnly: true
         anchors.top: analyzeButton.bottom
         anchors.topMargin: parent.height * .01
         anchors.left: parent.left
@@ -52,7 +54,7 @@ Item {
     Connections{
         target: stringParser
         onDetectedMatchChanged: {
-            mainTextArea.append("Has " + stringParser.detectedMatch)
+            mainTextArea.append(stringParser.detectedMatch)
         }
     }
 }

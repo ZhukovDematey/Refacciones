@@ -16,10 +16,30 @@ StringParser::~StringParser()
 void StringParser::parseString(QString &parsedString)
 {
     qDebug()<<"Analyzing: " << parsedString <<endl;
+
+    //Brand Detection Algorithm
+    QString::iterator begin_Iter = parsedString.begin();
+    QString::iterator brandEnd_Iter = parsedString.begin() + 3;
+
+    QString brandString;
+
+    for(auto iter = begin_Iter; iter < brandEnd_Iter; iter++){
+        brandString.append(*iter);
+    }
+
+    if(brandString.contains("SKF")){
+        setdetectedMatch("SKF autodetected");
+    }else if (brandString.contains("FAG")) {
+        setdetectedMatch("FAG autodetected");
+    }else if (brandString.contains("SNR")) {
+        setdetectedMatch("SNR autodetected");
+    }
+    //Brand
+
     for(size_t row = 0; row < rules.size(); row++){
         if(hasStringMatch(parsedString, row)){
             qDebug() << "has " << rules.at(row);
-            setdetectedMatch(rules.at(row));
+            setdetectedMatch("Has " + rules.at(row));
         }
     }
 }
